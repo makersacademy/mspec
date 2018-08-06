@@ -1,10 +1,8 @@
-require_relative '../lib/mspec'
+require_relative '../lib/mspec_runner'
 require_relative '../lib/assert'
 require_relative './dummies/dummy_reporter'
 
-test_runner = MSpec.new
-
-test_runner.it "Records the result of a passed test with the reporter" do
+it "Records the result of a passed test with the reporter" do
   # arrange
   dummy_reporter = DummyReporter.new
   subject = MSpec.new dummy_reporter
@@ -21,7 +19,7 @@ test_runner.it "Records the result of a passed test with the reporter" do
   end
 end
 
-test_runner.it "Records the result of a failed test with the reporter" do
+it "Records the result of a failed test with the reporter" do
   # arrange
   dummy_reporter = DummyReporter.new
   subject = MSpec.new dummy_reporter
@@ -37,6 +35,3 @@ test_runner.it "Records the result of a failed test with the reporter" do
     dummy_reporter.num_passed_tests == 0
   end
 end
-
-
-test_runner.run
