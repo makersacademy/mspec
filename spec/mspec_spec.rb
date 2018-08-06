@@ -1,4 +1,5 @@
 require_relative '../lib/mspec'
+require_relative '../lib/assert'
 
 test_runner = MSpec.new
 
@@ -9,11 +10,11 @@ test_runner.it "Runs all tests passed in through the 'it' method" do
   subject = MSpec.new
   test_var = 0;
 
-  subject.it "Test description" do
+  subject.it "Adds one to the tracking variable" do
     test_var += 1
   end
 
-  subject.it "Test description" do
+  subject.it "Adds two to the tracking variable" do
     test_var += 2
   end
 
@@ -21,10 +22,8 @@ test_runner.it "Runs all tests passed in through the 'it' method" do
   subject.run
 
   # assert
-  if test_var != 3
-    raise "Not all tests have been run"
-  else
-    p "Test passed"
+  Assert.is_true "All tests have run" do
+    test_var == 3
   end
 end
 

@@ -14,7 +14,6 @@ class MSpec
       puts test[:description]
       test[:test].call
     }
-
   end
 
 end
