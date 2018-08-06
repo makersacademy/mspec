@@ -1,30 +1,42 @@
 require_relative '../lib/mspec'
 require_relative '../lib/assert'
+require_relative './dummies/dummy_reporter'
 
 test_runner = MSpec.new
 
-p "Starting tests"
-
-test_runner.it "Runs all tests passed in through the 'it' method" do
+test_runner.it "Records the result of a passed test with the reporter" do
   # arrange
-  subject = MSpec.new
-  test_var = 0;
-
-  subject.it "Adds one to the tracking variable" do
-    test_var += 1
-  end
-
-  subject.it "Adds two to the tracking variable" do
-    test_var += 2
+  dummy_reporter = DummyReporter.new
+  subject = MSpec.new dummy_reporter
+  subject.it "Is true" do
+    Assert.is_true "It is true" do true end
   end
 
   # act
   subject.run
 
   # assert
-  Assert.is_true "All tests have run" do
-    test_var == 3
+  Assert.is_true "Number of passed tests is 1" do
+    dummy_reporter.num_passed_tests == 1
   end
 end
+
+test_runner.it "Records the result of a failed test with the reporter" do
+  # arrange
+  dummy_reporter = DummyReporter.new
+  subject = MSpec.new dummy_reporter
+  subject.it "Is true" do
+    Assert.is_true "It is true" do false end
+  end
+
+  # act
+  subject.run
+
+  # assert
+  Assert.is_true "Number of passed tests is 1" do
+    dummy_reporter.num_passed_tests == 0
+  end
+end
+
 
 test_runner.run
